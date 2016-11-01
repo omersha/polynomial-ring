@@ -1,3 +1,4 @@
+import itertools
 import numpy as np
 import ctypes
 
@@ -164,3 +165,9 @@ class PolynomialRing(object):
             groebner.append(self.polynomial_from_numpy(out_coeffs, out_powers))
         self._lib.buchbergersDtor(ctypes.c_voidp(handler))
         return groebner
+
+    
+    
+def find_standard_monomial_basis(groebner_basis):
+    LT = set([tuple(p.terms()[0][1]) for p in groebner_basis])
+    return set([z for y in [list(itertools.product(xrange(i+1),xrange(j+1),xrange(k+1))) for i,j,k in LT] for z in y]).difference(LT)
