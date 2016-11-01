@@ -1,4 +1,4 @@
-PROJ=polynomials
+PROJ=polynomialslib
 CC=g++
 
 COMPILE_FLAGS=--std=c++17 -Wall -O3 -c -m64 -fPIC

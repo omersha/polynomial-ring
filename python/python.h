@@ -11,7 +11,8 @@
 
 
 using PythonPolyRing = PolynomialRing<double, 3>;
-using PythonOrdering = GrevlexOrder;
+using PythonOrdering = LexOrder;
+//using PythonOrdering = GrevlexOrder;
 
 
 template<typename Ctor, size_t... S>
