@@ -174,6 +174,8 @@ template<typename PolyRing, class MonomialOrdering>
 class Buchbergers
 {
 public:
+   Buchbergers() : m_minimal(false) {}
+
    size_t generators()
    {
       return m_ideal_generators.size();
@@ -186,7 +188,22 @@ public:
 
    void calculate()
    {
+      m_minimal = false;
       m_groebner = runBuchbergers(m_ideal_generators);
+   }
+
+   void reduce()
+   {
+      if (!m_minimal) {
+         minimize();
+      }
+      makeReducedGroebner(m_groebner);
+   }
+
+   void minimize()
+   {
+      makeMinimalGroebner(m_groebner);
+      m_minimal = true;
    }
 
    size_t basisSize()
@@ -200,6 +217,7 @@ public:
    }
 
 private:
+   bool m_minimal;
    std::deque<Polynomial<PolyRing, MonomialOrdering>> m_ideal_generators;
    std::deque<Polynomial<PolyRing, MonomialOrdering>> m_groebner;
 };

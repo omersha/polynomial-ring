@@ -48,6 +48,8 @@ class PolynomialRing(object):
         self._lib.buchbergersCtor.restype = ctypes.c_void_p
         self._lib.buchbergersBasisSize.restype = ctypes.c_uint32
         self._lib.buchbergersCalculate.restype = ctypes.c_uint32
+        self._lib.buchbergersReduce.restype = ctypes.c_uint32
+        self._lib.buchbergersMinimize.restype = ctypes.c_uint32
         self._lib.buchbergersBasisElementTerms.restype = ctypes.c_uint32
         self._lib.buchbergersBasisElement.restype = ctypes.c_uint32        
         
@@ -144,7 +146,7 @@ class PolynomialRing(object):
         return quotients, remainder
     
     
-    def buchbergers(self, *generators):
+    def buchbergers(self, reduce_flag, *generators):
         handler = self._lib.buchbergersCtor()
         for generator in generators:
             self._lib.buchbergersAddGenerator(ctypes.c_voidp(handler),
@@ -152,6 +154,8 @@ class PolynomialRing(object):
                                               generator.coefficients().ctypes.data_as(ctypes.POINTER(ctypes.c_double)),
                                               generator.powers().ctypes.data_as(ctypes.POINTER(ctypes.c_uint32)))
         basis_size = self._lib.buchbergersCalculate(ctypes.c_voidp(handler))
+        if reduce_flag:
+            basis_size = self._lib.buchbergersReduce(ctypes.c_voidp(handler))
         
         groebner = []
         for i in xrange(basis_size):

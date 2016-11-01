@@ -161,6 +161,18 @@ extern "C"
       return static_cast<Buchbergers<PythonPolyRing, PythonOrdering>*>(handler)->basisSize();
    }
 
+   unsigned int buchbergersReduce(void *handler)
+   {
+      static_cast<Buchbergers<PythonPolyRing, PythonOrdering>*>(handler)->reduce();
+      return static_cast<Buchbergers<PythonPolyRing, PythonOrdering>*>(handler)->basisSize();
+   }
+
+   unsigned int buchbergersMinimize(void *handler)
+   {
+      static_cast<Buchbergers<PythonPolyRing, PythonOrdering>*>(handler)->minimize();
+      return static_cast<Buchbergers<PythonPolyRing, PythonOrdering>*>(handler)->basisSize();
+   }
+
    unsigned int buchbergersBasisSize(void *handler)
    {
       return static_cast<Buchbergers<PythonPolyRing, PythonOrdering>*>(handler)->basisSize();
